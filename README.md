@@ -1,4 +1,6 @@
-# Commands
+# System
+
+Everything that is needed to run the whole system is present right here plus documentation.
 
 ## Mosquitto
 
