@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  server-mongodb:
+    image: mongo:6.0.5
+    container_name: server-mongodb
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    networks:
+      cws-net:
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    networks:
+      cws-net:
+    environment:
+      ME_CONFIG_MONGODB_SERVER: 'server-mongodb'
+
+  broker-mosquitto:
+    image: eclipse-mosquitto:2.0-openssl
+    container_name: broker-mosquitto
+    ports:
+      - '1883:1883'
+    volumes:
+      - '${PWD}/mosquitto.conf:/mosquitto/config/mosquitto.conf'
+      - '/mosquitto/data'
+      - '/mosquitto/log'
+    networks:
+      cws-net:
+
+networks:
+  cws-net:
+    driver: bridge
+    name: cws-net
+
